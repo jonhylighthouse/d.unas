@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta cuántica secreta</title>
+<style>
+/* === TUS ESTILOS EXACTOS === */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(10, 10, 30);
+    overflow: hidden; /* evita scroll */
+}
+
+.stars, .hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.stars{
+    color: white;
+    opacity: 0.8;
+    font-size: 4px;
+    animation: starFall linear forwards;
+}
+
+@keyframes starFall{
+    0%{ transform: translateY(0); opacity: 0.8; }
+    100%{ transform: translateY(110vh); opacity: 0; }
+}
+
+.heart{
+    position: absolute;
+    animation: fall linear forwards;
+    color: rgba(255,0,0,0.6);
+}
+
+@keyframes fall{
+    to{ transform: translateY(100vh); opacity: 0; }
+}
+
+.screen {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ocupa toda la pantalla */
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.active { display: flex; }
+
+.password-screen { flex-direction: column; }
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.key {
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+}
+
+.key:hover {
+    background-color: #e6f0f5;
+    transform: translateY(-3px);
+}
+
+.input-display {
+    font-size: 24px;
+    margin-top: 20px;
+    letter-spacing: 8px;
+    color: white;
+}
+
+.notepad {
+    background-color: #000000;
+    border: 3px solid #000000;
+    padding: 20px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    text-align: left;
+    font-family:'Comic Sans MS', cursive, sans-serif;
+    line-height: 1.6;
+    box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
+    margin: auto; /* centrado horizontal */
+}
+
+.notepad h3 { margin-top: 0; color: white; }
+
+.password-img {
+    width: 90%;           /* Ocupa el 90% del ancho del contenedor */
+    max-width: 450px;     /* Pero no se hace más grande que 450px */
+    height: auto;         /* Altura automática para mantener proporción */
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+    display: block;
+    margin: 20px auto;
+}
+
+.note-img { width: 100%; max-width: 450px; height: auto; border-radius: 15px; margin-bottom: 15px; box-shadow: 4px 4px 12px rgba(0,0,0,0.2); }
+
+.back-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: #dad5cb;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #cb2a2a;
+    transform: translateY(-2px);
+}
+
+h2,h4,p { color: white; }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="hearts"></div>
+
+<!-- Pantalla de contraseña -->
+<div id="passwordScreen" class="screen password-screen active">
+    <img src="https://imgur.com/c74dGcZ" alt="Imagen decorativa" class="password-img">
+    <h2>🔒 Ingresa la contraseña</h2>
+    <div class="input-display" id="inputDisplay">••••</div>
+    <div class="keypad">
+        <button class="key" data-digit="1">1</button>
+        <button class="key" data-digit="2">2</button>
+        <button class="key" data-digit="3">3</button>
+        <button class="key" data-digit="4">4</button>
+        <button class="key" data-digit="5">5</button>
+        <button class="key" data-digit="6">6</button>
+        <button class="key" data-digit="7">7</button>
+        <button class="key" data-digit="8">8</button>
+        <button class="key" data-digit="9">9</button>
+        <button class="key" id="checkBtn">✔</button>
+        <button class="key" data-digit="0">0</button>
+        <button class="key" id="deleteBtn">⌫</button>
+    </div>
+</div>
+
+<!-- Pantalla de carta -->
+<div id="notepadScreen" class="screen">
+    <div class="notepad">
+        <img src="https://drive.google.com/file/d/1xj2386LGM46kumL9mRPgaQ9vN8z_jvXU/view?usp=sharing" alt="Imagen decorativa" class="password-img">
+        <h3>📅 23 Agosto 2025</h3>
+        <h4>💌 Mi Constelación Valiente</h4>
+        <p>Abrir esta carta es como entrar a nuestro universo donde solo estamos nosotros, donde el tiempo se detiene y cada momento que compartimos se vuelve cuántico. Tus ojos son universos que iluminan mi camino, y tu sonrisa, tus ojos, tu voz... todo tu ser es el Sol que irradia magia cuántica. Cada gesto tuyo, cada palabra, cada abrazo, cada beso, es un universo en sí mismo, lleno de magia, calma y conexión real.
+</p>
+<p>Desde el primer momento que te vi, sentí algo magnético como si nuestras almas se reconocieran y algo cuántico empezó a crecer entre nosotros. Gracias por enseñarme que el amor es real, cuántico y eclipsante. Gracias por dejarme entrar en tu mundo, por compartir tu risa, tu complicidad y tu luz. Gracias por ayudarme a encontrar trabajo y por estar ahí cuando más lo necesitaba; tu apoyo me empujó a crecer de formas que jamás voy a olvidar.
+La foto en blanco y negro que acompaña esta carta es un reflejo de nuestra historia: un instante cuántico donde se ve nuestra conexión, nuestra alegría y el amor que nos une. Cada vez que la miro, siento nuestra energía fluyendo, y recuerdo lo afortunado que soy de tenerte en mi vida.
+</p>
+<p>Que esta carta sea un abrazo cuántico, un recordatorio de que te llevo en cada pensamiento, en cada latido, en cada rincón de mi ser. Que nuestro universo siga expandiéndose, que sigamos explorando juntos cada destello, cada risa, cada sueño que compartimos. Estamos destinados a grandes éxitos, confía en tu maravillosa creatividad: vas a crear cosas inimaginables y yo voy a estar ahí festejando cada logro que te propongas ✨
+</p>
+<p>Tu Lighthouse, tu compañero de universo. Te amo infinito. 🌌✨💗</p>
+        <button class="back-btn" id="backBtn">🔙 Inicio</button>
+    </div>
+</div>
+
+<script>
+/* === JAVASCRIPT === */
+const correctPassword = '0706';
+let input = '';
+
+const passwordScreen = document.getElementById('passwordScreen');
+const notepadScreen = document.getElementById('notepadScreen');
+const inputDisplay = document.getElementById('inputDisplay');
+
+document.querySelectorAll('.key[data-digit]').forEach(button => {
+    button.addEventListener('click', () => {
+        if(input.length<4){ input+=button.dataset.digit; updateDisplay(); }
+    });
+});
+document.getElementById('deleteBtn').addEventListener('click', () => { input=input.slice(0,-1); updateDisplay(); });
+document.getElementById('checkBtn').addEventListener('click', checkPassword);
+document.getElementById('backBtn').addEventListener('click', goBack);
+
+function updateDisplay(){ inputDisplay.textContent = input.padEnd(4,'•'); }
+function checkPassword(){ 
+    if(input===correctPassword){ passwordScreen.classList.remove('active'); notepadScreen.classList.add('active'); }
+    else { alert('Contraseña incorrecta'); input=''; updateDisplay(); } 
+}
+function goBack(){ notepadScreen.classList.remove('active'); passwordScreen.classList.add('active'); input=''; updateDisplay(); }
+
+/* Teclado físico */
+document.addEventListener('keydown', e => {
+    if(/\d/.test(e.key) && input.length<4){ input+=e.key; updateDisplay(); }
+    else if(e.key==='Backspace'){ input=input.slice(0,-1); updateDisplay(); }
+    else if(e.key==='Enter'){ checkPassword(); }
+});
+
+/* Corazones */
+function crearCorazones(){ 
+    const heartsContainer=document.querySelector('.hearts'); 
+    setInterval(()=>{
+        const heart=document.createElement('div');
+        heart.classList.add('heart'); heart.textContent='❤';
+        heart.style.left=Math.random()*100+'vw';
+        heart.style.fontSize=(Math.random()*20+10)+'px';
+        heart.style.animationDuration=(Math.random()*5+5)+'s';
+        heartsContainer.appendChild(heart);
+        setTimeout(()=>heart.remove(),8000);
+    },500);
+}
+crearCorazones();
+
+/* Estrellas */
+function crearEstrellas(){ 
+    setInterval(()=>{
+        const ancho=window.innerWidth, alto=window.innerHeight;
+        const star=document.createElement('div');
+        star.textContent='★';
+        star.style.position='fixed';
+        star.style.left=Math.random()*ancho+'px';
+        star.style.top='-20px';
+        star.style.color='white';
+        star.style.fontSize=(Math.random()*8+6)+'px';
+        star.style.zIndex=0;
+        document.body.appendChild(star);
+        const duracion=(Math.random()*10+5)*1000;
+        star.animate([{transform:'translateY(0px)',opacity:1},{transform:`translateY(${alto+20}px)`,opacity:0}],{duration:duracion,easing:'linear'});
+        setTimeout(()=>star.remove(),duracion);
+    },300);
+}
+crearEstrellas();
+</script>
+</body>
+</html>
