@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carta cuántica secreta</title>
 <style>
-/* === TUS ESTILOS EXACTOS === */
+/* === ESTILOS RESPONSIVE === */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: rgb(10, 10, 30);
-    overflow: hidden; /* evita scroll */
+    overflow-x: hidden; /* evita scroll horizontal */
 }
 
 .stars, .hearts {
@@ -50,11 +50,13 @@ body {
     display: none;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* ocupa toda la pantalla */
+    min-height: 100vh; /* que ocupe al menos toda la pantalla */
     text-align: center;
     flex-direction: column;
     position: relative;
     z-index: 2;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .active { display: flex; }
@@ -63,10 +65,11 @@ body {
 
 .keypad {
     display: grid;
-    grid-template-columns: repeat(3, 60px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-top: 20px;
-    justify-content: center;
+    width: 100%;
+    max-width: 200px;
 }
 
 .key {
@@ -86,10 +89,11 @@ body {
 }
 
 .input-display {
-    font-size: 24px;
+    font-size: 20px;
     margin-top: 20px;
-    letter-spacing: 8px;
+    letter-spacing: 6px;
     color: white;
+    word-wrap: break-word;
 }
 
 .notepad {
@@ -97,21 +101,22 @@ body {
     border: 3px solid #000000;
     padding: 20px;
     border-radius: 20px;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     text-align: left;
     font-family:'Comic Sans MS', cursive, sans-serif;
     line-height: 1.6;
     box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
-    margin: auto; /* centrado horizontal */
+    margin: auto;
+    box-sizing: border-box;
 }
 
 .notepad h3 { margin-top: 0; color: white; }
 
 .password-img {
-    width: 90%;           /* Ocupa el 90% del ancho del contenedor */
-    max-width: 450px;     /* Pero no se hace más grande que 450px */
-    height: auto;         /* Altura automática para mantener proporción */
+    width: 80%;
+    max-width: 250px;
+    height: auto;
     object-fit: cover;
     border-radius: 15px;
     box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
@@ -119,7 +124,14 @@ body {
     margin: 20px auto;
 }
 
-.note-img { width: 100%; max-width: 450px; height: auto; border-radius: 15px; margin-bottom: 15px; box-shadow: 4px 4px 12px rgba(0,0,0,0.2); }
+.note-img { 
+    width: 100%; 
+    max-width: 400px; 
+    height: auto; 
+    border-radius: 15px; 
+    margin-bottom: 15px; 
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.2); 
+}
 
 .back-btn {
     display: inline-block;
@@ -140,6 +152,15 @@ body {
 }
 
 h2,h4,p { color: white; }
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+    .notepad { 
+        padding: 15px; 
+        font-size: 14px;
+    }
+    .input-display { font-size: 18px; }
+}
 </style>
 </head>
 <body>
@@ -149,7 +170,7 @@ h2,h4,p { color: white; }
 
 <!-- Pantalla de contraseña -->
 <div id="passwordScreen" class="screen password-screen active">
-    <img src="https://imgur.com/c74dGcZ" alt="Imagen decorativa" class="password-img">
+    <img src="img/imagen 1.jpg" alt="Imagen decorativa" class="password-img">
     <h2>🔒 Ingresa la contraseña</h2>
     <div class="input-display" id="inputDisplay">••••</div>
     <div class="keypad">
@@ -171,8 +192,8 @@ h2,h4,p { color: white; }
 <!-- Pantalla de carta -->
 <div id="notepadScreen" class="screen">
     <div class="notepad">
-        <img src="https://drive.google.com/file/d/1xj2386LGM46kumL9mRPgaQ9vN8z_jvXU/view?usp=sharing" alt="Imagen decorativa" class="password-img">
-        <h3>📅 23 Agosto 2025</h3>
+        <img src="img/imagen 2.jpg" alt="Imagen decorativa" class="password-img">
+        <h3>📅 25 Agosto 2025</h3>
         <h4>💌 Mi Constelación Valiente</h4>
         <p>Abrir esta carta es como entrar a nuestro universo donde solo estamos nosotros, donde el tiempo se detiene y cada momento que compartimos se vuelve cuántico. Tus ojos son universos que iluminan mi camino, y tu sonrisa, tus ojos, tu voz... todo tu ser es el Sol que irradia magia cuántica. Cada gesto tuyo, cada palabra, cada abrazo, cada beso, es un universo en sí mismo, lleno de magia, calma y conexión real.
 </p>
@@ -187,7 +208,7 @@ La foto en blanco y negro que acompaña esta carta es un reflejo de nuestra hist
 </div>
 
 <script>
-/* === JAVASCRIPT === */
+/*  JAVASCRIPT EFECTOS  */
 const correctPassword = '0706';
 let input = '';
 
