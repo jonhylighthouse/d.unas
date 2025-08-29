@@ -26,7 +26,7 @@ body {
 }
 
 .stars{
-    color: white;
+    color: black;
     opacity: 0.8;
     font-size: 4px;
     animation: starFall linear forwards;
@@ -74,7 +74,7 @@ body {
 }
 
 .key {
-    background-color: white;
+    background-color: black;
     border: none;
     border-radius: 10px;
     font-size: 20px;
@@ -96,23 +96,17 @@ body {
     color: white;
     word-wrap: break-word;
 }
-
 .notepad {
-    background-color: #000000;
-    border: 3px solid #000000;
+    background-image: url("fondo.jpg"); /* tu imagen de fondo */
+    background-size: cover;   /* hace que cubra todo el bloque */
+    background-position: center; /* centra la imagen */
+    background-repeat: no-repeat; /* evita repeticiones */
+    color: white; /* mantiene el texto visible */
     padding: 20px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    text-align: left;
-    font-family:'Comic Sans MS', cursive, sans-serif;
-    line-height: 1.6;
-    box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
-    margin: auto;
-    box-sizing: border-box;
+    border-radius: 10px;
 }
 
-.notepad h3 { margin-top: 0; color: white; }
+.notepad h3 { margin-top: 0; color: black; }
 
 .password-img {
     width: 80%;
@@ -152,7 +146,7 @@ body {
     transform: translateY(-2px);
 }
 
-h2,h4,p { color: white; }
+h2,h4,p { color: black; }
 
 /* === RESPONSIVE === */
 @media (max-width: 600px) {
