@@ -247,26 +247,63 @@ function crearCorazones(){
     },500);
 }
 crearCorazones();
-
-/* Estrellas */
+/* Estrellas personalizadas */
 function crearEstrellas(){ 
+    // Ejecuta la función repetidamente cada 300 milisegundos (0,3s)
     setInterval(()=>{
-        const ancho=window.innerWidth, alto=window.innerHeight;
-        const star=document.createElement('div');
-        star.textContent='★';
-        star.style.position='fixed';
-        star.style.left=Math.random()*ancho+'px';
-        star.style.top='-20px';
-        star.style.color='white';
-        star.style.fontSize=(Math.random()*8+6)+'px';
-        star.style.zIndex=0;
+        // Obtiene el ancho y alto actual de la ventana
+        const ancho = window.innerWidth, alto = window.innerHeight;
+
+        // Crea un elemento <img> que será la "estrella"
+        const star = document.createElement('img');
+
+        // Le asigna la imagen personalizada que vos quieras
+        star.src = "icono.ico"; // tu icono personalizado
+
+        // Posiciona la estrella de forma absoluta en la pantalla
+        star.style.position = 'fixed';
+
+        // Ubicación horizontal aleatoria (entre 0 y el ancho de la pantalla)
+        star.style.left = Math.random() * ancho + 'px';
+
+        // Empieza un poco por encima de la pantalla (-20px)
+        star.style.top = '-20px';
+
+        // Da un tamaño aleatorio a cada estrella (entre 10px y 30px aprox.)
+        star.style.width = (Math.random() * 20 + 10) + 'px';
+
+        // Mantiene proporción de la imagen
+        star.style.height = 'auto';
+
+        // Lo manda al fondo (detrás del resto del contenido)
+        star.style.zIndex = 0;
+
+        // Agrega la estrella al documento (aparece en la página)
         document.body.appendChild(star);
-        const duracion=(Math.random()*10+5)*1000;
-        star.animate([{transform:'translateY(0px)',opacity:1},{transform:`translateY(${alto+20}px)`,opacity:0}],{duration:duracion,easing:'linear'});
-        setTimeout(()=>star.remove(),duracion);
-    },300);
+
+        // Define cuánto tarda en caer la estrella (entre 5 y 15 segundos)
+        const duracion = (Math.random() * 10 + 5) * 1000;
+
+        // Anima la caída de la estrella:
+        // - Empieza en la parte superior con opacidad 1
+        // - Termina más abajo de la pantalla (alto + 20px) y opacidad 0
+        star.animate(
+            [
+                { transform: 'translateY(0px)', opacity: 1 },
+                { transform: `translateY(${alto + 20}px)`, opacity: 0 }
+            ],
+            { duration: duracion, easing: 'linear' } // velocidad constante
+        );
+
+        // Una vez que termina la animación, elimina la estrella del DOM
+        setTimeout(() => star.remove(), duracion);
+
+    }, 300); // Crea una nueva estrella cada 300ms
 }
+
+// Llama a la función para que empiece a crear las estrellas
 crearEstrellas();
+
 </script>
 </body>
 </html>
