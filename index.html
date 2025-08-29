@@ -11,7 +11,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: rgb(10, 10, 30);
+    background-color: rgba(245, 216, 132, 0.2);
     overflow-x: hidden; /* evita scroll horizontal */
 }
 
@@ -238,7 +238,7 @@ function crearCorazones(){
     const heartsContainer=document.querySelector('.hearts'); 
     setInterval(()=>{
         const heart=document.createElement('div');
-        heart.classList.add('heart'); heart.textContent='❤';
+        heart.classList.add('heart'); heart.textContent='💚';
         heart.style.left=Math.random()*100+'vw';
         heart.style.fontSize=(Math.random()*20+10)+'px';
         heart.style.animationDuration=(Math.random()*5+5)+'s';
